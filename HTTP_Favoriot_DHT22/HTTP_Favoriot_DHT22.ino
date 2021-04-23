@@ -20,7 +20,7 @@ const char password[] = "YourWiFiPassword";       // replace with your WiFi pass
 const char apikey[]   = "YourDeviceAccessToken";  // replace with your Favoriot Device Access Token
 
 FavoriotHTTP favoriot;
-SimpleDHT11 dht11(D8);
+SimpleDHT22 dht22(D8);
 
 unsigned long previousMillis = 0;
 
@@ -34,11 +34,11 @@ void setup() {
 void loop() {
   
   // STEP 2 - Sensors reading for data acquisition
-  byte suhu = 0;
-  byte kelembapan = 0;
+  float suhu = 0;
+  float kelembapan = 0;
   
   int err = SimpleDHTErrSuccess;
-  if ((err = dht11.read(&suhu, &kelembapan, NULL)) != SimpleDHTErrSuccess) {
+  if ((err = dht22.read2(&suhu, &kelembapan, NULL)) != SimpleDHTErrSuccess) {
     return;
   }
 
