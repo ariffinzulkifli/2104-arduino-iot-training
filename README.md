@@ -1,4 +1,4 @@
-# Raspberry Pi CircuitPython Training + LoRa
+# Arduino Internet of Things
 
 ```
    __  ___     _                   __    ______        __             __          _       
