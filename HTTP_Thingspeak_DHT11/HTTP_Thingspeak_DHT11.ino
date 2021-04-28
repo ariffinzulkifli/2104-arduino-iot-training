@@ -5,7 +5,7 @@
 * This sketch has 3 execution steps:
 * 1. Initialized WiFi connectivity
 * 2. Sensors reading for data acquisition
-* 3. Favoriot HTTP API request
+* 3. ThingSpeak HTTP API request
 * 
 * Please select ESP32/ESP8266 Boards before compiling the sketch
 * (example) Go to menu, Tools > Board > ESP32 Arduino or ESP8266 Boards
@@ -70,28 +70,17 @@ void loop() {
   if(millis() - lastMillis > 15000){
     lastMillis = millis();
     
-    // #STEP 3 - Favoriot HTTP API Request - Send data to Favoriot data stream
+    // #STEP 3 - Thingspeak HTTP API Request - Update channel feed
     HTTPClient http;
   
-    http.begin("http://apiv2.favoriot.com/v2/streams");
-  
-    http.addHeader("Content-Type", "application/json");
-    http.addHeader("apikey", "YOUR_DEVICE_ACCESS_TOKEN");
-  
-    String body = "{";
-    body += "\"device_developer_id\": \"YOUR_DEVICE_DEVELOPER_ID\",";
-    body += "\"data\": {";
-    body += "\"temperature\": " + (String)temperature + ",";
-    body += "\"humidity\": " + (String)humidity;
-    body += "}";
-    body += "}";
+    http.begin("http://api.thingspeak.com/update?api_key=YOUR_WRITE_API_KEY&field1=" + (String)temperature + "&field2=" + (String)humidity);
     
-    int httpCode = http.POST(body);
+    int httpCode = http.GET();
   
     if(httpCode > 0){
       Serial.print("HTTP Request: ");
       
-      httpCode == 201 ? Serial.print("Success, ") : Serial.print("Error, ");
+      httpCode == 200 ? Serial.print("Success, ") : Serial.print("Error, ");
       Serial.println(http.getString());
     }
     else{
